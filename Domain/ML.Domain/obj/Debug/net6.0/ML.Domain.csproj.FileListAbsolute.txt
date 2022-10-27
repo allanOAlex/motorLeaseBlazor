@@ -1,0 +1,14 @@
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\bin\Debug\net6.0\ML.Domain.deps.json
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\bin\Debug\net6.0\ML.Domain.dll
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\bin\Debug\net6.0\ML.Domain.pdb
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\obj\Debug\net6.0\ML.Domain.csproj.AssemblyReference.cache
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\obj\Debug\net6.0\ML.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\obj\Debug\net6.0\ML.Domain.AssemblyInfoInputs.cache
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\obj\Debug\net6.0\ML.Domain.AssemblyInfo.cs
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\obj\Debug\net6.0\ML.Domain.csproj.CoreCompileInputs.cache
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\obj\Debug\net6.0\ML.Domain.dll
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\obj\Debug\net6.0\refint\ML.Domain.dll
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\obj\Debug\net6.0\ML.Domain.pdb
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\obj\Debug\net6.0\ref\ML.Domain.dll
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\bin\Debug\net6.0\ML.Domain.runtimeconfig.json
+D:\Projects\MotorLease\MotorLease\Domain\ML.Domain\obj\Debug\net6.0\ML.Domain.genruntimeconfig.cache

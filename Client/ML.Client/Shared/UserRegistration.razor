@@ -1,0 +1,85 @@
+﻿@inject HttpClient Http
+@inject NavigationManager navigationManager
+@inject IUserService userService
+
+
+<BSModal DataId="register" IsScrollable="true" IsStaticBackdrop="true" IsCentered="true" Size="Size.Medium" @ref="registrationModal">
+    <BSModalHeader style="color:#8522e4;font-size:20px;"><strong>@ModalHeaderText</strong> </BSModalHeader>
+    <BSModalContent>
+        <EditForm Model="regRequest">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <BSLabel><strong>Username: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.Username)" />
+            <InputText @bind-Value="regRequest.Username" class="form-control" />
+
+            <BSLabel><strong>Password: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.Password)" />
+            <InputText @bind-Value="regRequest.Password" class="form-control" />
+
+            <BSLabel><strong>First Name: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.FirstName)" />
+            <InputText @bind-Value="regRequest.FirstName" class="form-control" />
+
+            <BSLabel><strong>Last Name: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.LastName)" />
+            <InputText @bind-Value="regRequest.LastName" class="form-control" />
+
+            <BSLabel><strong>Id Number: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.IdNumber)" />
+            <InputNumber @bind-Value="regRequest.IdNumber" class="form-control" />
+
+            <BSLabel><strong>Phone: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.PhoneNumber)" />
+            <InputNumber @bind-Value="regRequest.PhoneNumber" class="form-control" />
+
+            <BSLabel><strong>Address: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.Address)" />
+            <InputText @bind-Value="regRequest.Address" class="form-control" />
+        </EditForm>
+    </BSModalContent>
+    <BSModalFooter>
+        <BSButton Class="btn-sm float-right" Color="BSColor.Dark" IsOutlined="true" Target="register">Cancel</BSButton>
+        <BSButton Class="btn-sm float-right" IsSubmit="true" style="background-color: #8522e4; color: whitesmoke" @onclick="CreateUser">Save</BSButton>
+    </BSModalFooter>
+</BSModal>
+
+@code {
+
+    BSModal? registrationModal = new BSModal();
+
+    public User user = new();
+    public RegistrationRequest regRequest = new();
+    public RegistrationResponse regResponse = new();
+
+    public string ModalHeaderText = "User Registration";
+
+
+    public async Task CreateUser()
+    {
+        var createUserRequest = new RegistrationRequest
+            {
+                Username = regRequest.Username,
+                Password = regRequest.Password,
+                FirstName = regRequest.FirstName,
+                LastName = regRequest.LastName,
+                IdNumber = regRequest.IdNumber,
+                PhoneNumber = regRequest.PhoneNumber,
+                Address = regRequest.Address
+            };
+
+        try
+        {
+            var response = await userService.CreateUser(createUserRequest);
+            if (response.FirstName != null)
+            {
+
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
+    }
+}

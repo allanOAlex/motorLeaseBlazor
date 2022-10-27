@@ -1,0 +1,203 @@
+﻿@inject HttpClient Http
+@inject NavigationManager navigationManager
+@inject IUserService userService
+@inject NotificationService notificationService
+
+
+
+<div class="alert alert-secondary mt-4">
+    <span class="oi oi-pencil me-2" aria-hidden="true"></span>
+    <strong>@Title</strong>
+
+    <span class="text-nowrap">
+        
+        @*<a target="_blank" class="font-weight-bold link-dark" href="">Login</a>*@
+        <BSLink style="color: #8522e4" Target="login"><em>Login</em></BSLink>
+
+    </span>
+    and get access to the best cars for you!
+</div>
+
+
+
+<BSModal DataId="login" IsScrollable="true" IsStaticBackdrop="true" IsCentered="true" Size="Size.Medium" @ref="loginModal">
+    <BSModalHeader style="color:#8522e4;font-size:20px;"><strong>Login</strong> </BSModalHeader>
+    <BSModalContent>
+        <EditForm Model="loginRequest">
+
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <BSLabel><strong>Username: </strong></BSLabel>
+            <ValidationMessage For="@(() => loginRequest.Username)" />
+            <InputText @bind-Value="loginRequest.Username" class="form-control" />
+
+            <BSLabel><strong>password: </strong></BSLabel>
+            <ValidationMessage For="@(() => loginRequest.Password)" />
+            <InputText id="lastName" @bind-Value="loginRequest.Password" class="form-control" />
+
+        </EditForm>
+    </BSModalContent>
+    <BSModalFooter>
+        <BSButton Class="btn-sm float-left" Color="BSColor.Info" @onclick="@(() => HandleRegisterButtonClicked())">Register</BSButton>
+        <BSButton Class="btn-sm float-right" Color="BSColor.Dark" IsOutlined="true" Target="login">Cancel</BSButton>
+        <BSButton Class="btn-sm float-right" IsSubmit="true" style="background-color: #8522e4; color: whitesmoke" @onclick="@(() => HandleLogin())">Save</BSButton>
+    </BSModalFooter>
+</BSModal>
+
+<BSModal DataId="register" IsScrollable="true" IsStaticBackdrop="true" IsCentered="true" Size="Size.Medium" @ref="registrationModal">
+    <BSModalHeader style="color:#8522e4;font-size:20px;"><strong>User Registration</strong> </BSModalHeader>
+    <BSModalContent>
+        <EditForm Model="regRequest">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <BSLabel><strong>Username: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.Username)" />
+            <InputText @bind-Value="regRequest.Username" class="form-control" />
+
+            <BSLabel><strong>Password: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.Password)" />
+            <InputText @bind-Value="regRequest.Password" class="form-control" />
+
+            <BSLabel><strong>First Name: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.FirstName)" />
+            <InputText @bind-Value="regRequest.FirstName" class="form-control" />
+
+            <BSLabel><strong>Last Name: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.LastName)" />
+            <InputText @bind-Value="regRequest.LastName" class="form-control" />
+
+            <BSLabel><strong>Id Number: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.IdNumber)" />
+            <InputNumber @bind-Value="regRequest.IdNumber" class="form-control" />
+
+            <BSLabel><strong>Phone: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.PhoneNumber)" />
+            <InputNumber @bind-Value="regRequest.PhoneNumber" class="form-control" />
+
+            <BSLabel><strong>Address: </strong></BSLabel>
+            <ValidationMessage For="@(() => user.Address)" />
+            <InputText @bind-Value="regRequest.Address" class="form-control" />
+        </EditForm>
+    </BSModalContent>
+    <BSModalFooter>
+        <BSButton Class="btn-sm float-right" Color="BSColor.Dark" IsOutlined="true" @onclick="HandleRegisterCancel">Cancel</BSButton>
+        <BSButton Class="btn-sm float-right" IsSubmit="true" style="background-color: #8522e4; color: whitesmoke" @onclick="CreateUser">Save</BSButton>
+    </BSModalFooter>
+</BSModal>
+
+@*@if (@RegisterButtonClicked == true)
+{
+    <UserRegistration/>
+
+    RegisterButtonClicked = false;
+}*@
+
+@code {
+
+    BSModal? loginModal = new BSModal();
+    BSModal? registrationModal = new BSModal();
+
+    public User user = new();
+    public LoginRequest loginRequest = new();
+    public LoginResponse loginResponse = new();
+    public RegistrationRequest regRequest = new();
+    public RegistrationResponse regResponse = new();
+
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    public bool RegisterButtonClicked { get; set; }
+
+
+
+    public async Task<bool> HandleRegisterButtonClicked()
+    {
+        await HideModal(loginModal);
+
+        RegisterButtonClicked = true;
+
+        await ShowModal(registrationModal);
+
+        return RegisterButtonClicked;
+    }
+
+    public async Task<bool> HandleRegisterCancel()
+    {
+        RegisterButtonClicked = false;
+
+        await HideModal(registrationModal);
+
+        return RegisterButtonClicked;
+    }
+
+    public async Task HandleLogin()
+    {
+        var userLoginRequests = new LoginRequest
+        {
+            Username = loginRequest.Username,
+            Password = loginRequest.Password
+
+        };
+
+        try
+        {
+            var response = await userService.HandleLogin(userLoginRequests);
+            if (response.FirstName != null)
+            {
+
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    public async Task CreateUser()
+    {
+        var createUserRequest = new RegistrationRequest
+        {
+            Username = regRequest.Username,
+            Password = regRequest.Password,
+            FirstName = regRequest.FirstName,
+            LastName = regRequest.LastName,
+            IdNumber = regRequest.IdNumber,
+            PhoneNumber = regRequest.PhoneNumber,
+            Address = regRequest.Address
+        };
+        
+        try
+        {
+            var response = await userService.CreateUser(createUserRequest);
+            if (response.FirstName != null)
+            {
+
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        
+    }
+
+    public async Task ShowModal(BSModal modal)
+    {
+        await modal.ShowAsync();
+    }
+
+    public async Task HideModal(BSModal modal)
+    {
+        await modal.HideAsync();
+    }
+
+    public void ShowNotification(NotificationMessage message)
+    {
+        notificationService.Notify(message);
+    }
+
+
+
+}
